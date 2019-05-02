@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 
 import Weather from './Weather';
+import ConvertControl from './ConvertControl';
+import { toFahrenheit, toCelsius } from '../helper/converter.js';
 
 class App extends Component {
   state = {
-    weatherData: null
+    weatherData: null,
+    temperature: null,
+    unit: null
   };
 
   componentDidMount() {
@@ -33,27 +37,47 @@ class App extends Component {
         const weatherData = {
           icon: weather[0].icon,
           description: weather[0].description,
-          place: `${name}, ${sys.country}`,
-          temperature: main.temp
+          place: `${name}, ${sys.country}`
         };
 
-        console.log(weatherData);
-
         this.setState(() => ({
-          weatherData
+          weatherData,
+          temperature: main.temp.toFixed(1),
+          unit: 'celcius'
         }));
       })
       .catch(err => console.log(err.message));
   }
 
+  convertTo = unit => {
+    if (unit === 'celcius') {
+      this.setState(prevState => ({
+        temperature: toCelsius(prevState.temperature),
+        unit: 'celcius'
+      }));
+    } else {
+      this.setState(prevState => ({
+        temperature: toFahrenheit(prevState.temperature),
+        unit: 'fahrenheit'
+      }));
+    }
+  };
+
   render() {
-    const { weatherData } = this.state;
+    const { weatherData, temperature, unit } = this.state;
 
     return (
       <div>
         <h1>Weather App</h1>
-        {weatherData ? (
-          <Weather weatherData={weatherData} />
+        {weatherData && temperature ? (
+          <div>
+            <Weather
+              weatherData={weatherData}
+              temperature={temperature}
+              unit={unit}
+            />
+            <ConvertControl convertTo={this.convertTo} unit={unit} />
+          </div>
         ) : (
           <p>Loading...</p>
         )}
