@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Weather from './Weather';
-import ConvertControl from './ConvertControl';
+import Weather from './Weather/Weather';
+import ConvertControl from './ConvertControl/ConvertControl';
 import { toFahrenheit, toCelsius } from '../helper/converter.js';
 
 class App extends Component {
@@ -67,20 +67,22 @@ class App extends Component {
     const { weatherData, temperature, unit } = this.state;
 
     return (
-      <div>
-        <h1>Weather App</h1>
-        {weatherData && temperature ? (
-          <div>
-            <Weather
-              weatherData={weatherData}
-              temperature={temperature}
-              unit={unit}
-            />
-            <ConvertControl convertTo={this.convertTo} unit={unit} />
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+      <div className="container">
+        <div className="app">
+          <h1>Weather App</h1>
+          {weatherData && temperature ? (
+            <div className="app-content">
+              <Weather
+                weatherData={weatherData}
+                temperature={temperature}
+                unit={unit}
+              />
+              <ConvertControl convertTo={this.convertTo} unit={unit} />
+            </div>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
       </div>
     );
   }

@@ -1,7 +1,8 @@
 import React from 'react';
+import './ConvertControl.css';
 
 const ConvertControl = ({ convertTo, unit }) => (
-  <div>
+  <div className="con-ctrl">
     <input
       id="rad1"
       type="radio"

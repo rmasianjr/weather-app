@@ -1,0 +1,11 @@
+.weather-data {
+  text-align: center;
+}
+
+.weather-data-place {
+  margin: 2rem auto;
+}
+
+.weather-data-temp {
+  font-size: 2.1rem;
+}
