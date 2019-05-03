@@ -1,26 +1,35 @@
+function checkTime(hour) {
+  if (hour < 6 || hour > 18) {
+    return 'night-alt';
+  }
+  return 'day';
+}
+
 export function getIcon(weatherStatus) {
+  const today = checkTime(new Date().getHours());
   let iconStr;
+
   switch (weatherStatus) {
     case 'Clear':
-      iconStr = 'day-sunny';
+      iconStr = today === 'day' ? 'day-sunny' : 'night-clear';
       break;
     case 'Clouds':
-      iconStr = 'day-cloudy';
+      iconStr = `${today}-cloudy`;
       break;
     case 'Rain':
-      iconStr = 'day-rain';
+      iconStr = `${today}-rain`;
       break;
     case 'Snow':
-      iconStr = 'day-snow';
+      iconStr = `${today}-snow`;
       break;
     case 'Drizzle':
-      iconStr = 'day-sprinkle';
+      iconStr = `${today}-sprinkle`;
       break;
     case 'Thunderstorm':
-      iconStr = 'day-thunderstorm';
+      iconStr = `${today}-thunderstorm`;
       break;
     case 'Fog':
-      iconStr = 'day-fog';
+      iconStr = `${today.replace(/-alt$/, '')}-fog`;
       break;
     case 'Haze':
     case 'Mist':
