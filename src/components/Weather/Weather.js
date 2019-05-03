@@ -4,11 +4,11 @@ import WeatherIcon from '../WeatherIcon/WeatherIcon';
 import './Weather.css';
 
 const Weather = ({ weatherData, temperature, unit }) => {
-  const { icon, description, place } = weatherData;
+  const { status, description, place } = weatherData;
 
   return (
     <div className="weather-data">
-      <WeatherIcon icon={icon} description={description} />
+      <WeatherIcon status={status} description={description} />
       <p className="weather-data-place">{place}</p>
       <p className="weather-data-temp">
         {temperature}

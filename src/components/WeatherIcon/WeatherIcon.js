@@ -1,11 +1,12 @@
 import React from 'react';
 import './WeatherIcon.css';
+import { getIcon } from '../../helper/iconGenerator';
 
-const WeatherIcon = ({ icon, description }) => (
+const WeatherIcon = ({ status, description }) => (
   <React.Fragment>
-    <div className="icon-container">
-      <img className="icon-image" src={icon} alt={description} />
-    </div>
+    <p className="icon-weather">
+      <i className={`wi wi-${getIcon(status)}`} />
+    </p>
     <p className="icon-description">{description}</p>
   </React.Fragment>
 );

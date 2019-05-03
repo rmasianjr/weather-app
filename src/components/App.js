@@ -35,7 +35,7 @@ class App extends Component {
       .then(data => {
         const { main, name, sys, weather } = data;
         const weatherData = {
-          icon: weather[0].icon,
+          status: weather[0].main,
           description: weather[0].description,
           place: `${name}, ${sys.country}`
         };
