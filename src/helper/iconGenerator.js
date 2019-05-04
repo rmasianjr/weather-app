@@ -1,5 +1,5 @@
 function checkTime(hour) {
-  if (hour < 6 || hour > 18) {
+  if (hour < 6 || hour > 17) {
     return 'night-alt';
   }
   return 'day';

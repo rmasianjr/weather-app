@@ -5,7 +5,7 @@
 .weather-data-place {
   font-size: 1.4rem;
   font-weight: 700;
-  margin: 2rem auto;
+  margin: 2rem auto 3rem auto;
 }
 
 .weather-data-temp {

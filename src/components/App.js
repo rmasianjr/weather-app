@@ -49,8 +49,8 @@ class App extends Component {
       .catch(err => console.log(err.message));
   }
 
-  convertTo = unit => {
-    if (unit === 'celcius') {
+  convertTo = e => {
+    if (!e.target.checked) {
       this.setState(prevState => ({
         temperature: toCelsius(prevState.temperature),
         unit: 'celcius'
@@ -77,7 +77,7 @@ class App extends Component {
                 temperature={temperature}
                 unit={unit}
               />
-              <ConvertControl convertTo={this.convertTo} unit={unit} />
+              <ConvertControl convertTo={this.convertTo} />
             </div>
           ) : (
             <p>Loading...</p>

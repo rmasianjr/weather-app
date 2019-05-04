@@ -1,26 +1,20 @@
 import React from 'react';
 import './ConvertControl.css';
 
-const ConvertControl = ({ convertTo, unit }) => (
+const ConvertControl = ({ convertTo }) => (
   <div className="con-ctrl">
     <input
-      id="rad1"
-      type="radio"
-      name="convert"
-      value="celcius"
-      onChange={() => convertTo('celcius')}
-      checked={unit === 'celcius'}
+      className="con-ctrl-switch"
+      type="checkbox"
+      id="convert"
+      onChange={convertTo}
     />
-    <label htmlFor="rad1">Celcius</label>
-    <input
-      id="rad2"
-      type="radio"
-      name="convert"
-      value="fahrenheit"
-      onChange={() => convertTo('fahrenheit')}
-      checked={unit === 'fahrenheit'}
+    <label
+      className="toggle-switch"
+      htmlFor="convert"
+      data-temp-off="Fahrenheit"
+      data-temp-on="Celcius"
     />
-    <label htmlFor="rad2">Fahrenheit</label>
   </div>
 );
 

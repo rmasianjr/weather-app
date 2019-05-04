@@ -1,9 +1,51 @@
 .con-ctrl {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  margin: 1rem auto;
-  font-size: 1.5rem;
-  max-width: 20rem;
+  position: relative;
+  max-width: 15rem;
+  margin: 0 auto;
+}
+
+.toggle-switch {
+  padding-top: 1.5rem;
+  padding-bottom: 5rem;
+  display: block;
+  perspective: 500px;
+}
+
+.con-ctrl-switch {
+  display: none;
+}
+
+.toggle-switch::before,
+.toggle-switch::after {
+  font-weight: 300;
+  font-size: 1.4rem;
+  position: absolute;
+  width: 100%;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  padding: 0.5rem;
+  color: #f9f2d3;
+  display: inline-block;
+  background-color: #435961;
+  transition: all 0.6s ease-out;
+  backface-visibility: hidden;
+}
+
+.toggle-switch::before {
+  content: attr(data-temp-off);
+}
+
+.con-ctrl-switch:checked + .toggle-switch::before {
+  transform: rotateY(180deg);
+}
+
+.toggle-switch::after {
+  content: attr(data-temp-on);
+  transform: rotateY(-180deg);
+}
+
+.con-ctrl-switch:checked + .toggle-switch::after {
+  transform: rotateY(0);
 }
