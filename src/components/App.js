@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Weather from './Weather/Weather';
 import ConvertControl from './ConvertControl/ConvertControl';
 import { toFahrenheit, toCelsius } from '../helper/converter.js';
+import { getLocation } from '../helper/getLocation';
 
 class App extends Component {
   state = {
@@ -17,15 +18,29 @@ class App extends Component {
 
   checkGeolocation() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.getLocationWeather(
-          position.coords.latitude,
-          position.coords.longitude
-        );
-      });
+      getLocation()
+        .then(coords =>
+          this.getLocationWeather(coords.latitude, coords.longitude)
+        )
+        .catch(error => {
+          console.log(error);
+          this.getLocationByIP();
+        });
     } else {
-      console.log('geolocation is not supported');
+      console.log('Geolocation is not supported by this browser');
+      this.getLocationByIP();
     }
+  }
+
+  getLocationByIP() {
+    const endpoint = 'https://ipapi.co/json/';
+    fetch(endpoint)
+      .then(res => res.json())
+      .then(data => {
+        const { latitude, longitude } = data;
+        this.getLocationWeather(latitude, longitude);
+      })
+      .catch(error => console.log(error));
   }
 
   getLocationWeather(latitude, longitude) {
@@ -33,6 +48,7 @@ class App extends Component {
     fetch(endpoint)
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         const { main, name, sys, weather } = data;
         const weatherData = {
           status: weather[0].main,
