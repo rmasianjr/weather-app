@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Weather from './Weather/Weather';
 import ConvertControl from './ConvertControl/ConvertControl';
+import Loading from './Loading/Loading';
 import { toFahrenheit, toCelsius } from '../helper/converter.js';
 import { getLocation } from '../helper/getLocation';
 
@@ -96,7 +97,7 @@ class App extends Component {
               <ConvertControl convertTo={this.convertTo} />
             </div>
           ) : (
-            <p>Loading...</p>
+            <Loading />
           )}
         </div>
       </div>

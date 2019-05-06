@@ -43,6 +43,8 @@ h1 {
   margin: 1em auto;
   border-radius: 1rem;
   box-shadow: 0 0 5rem rgba(0, 0, 0, 0.3);
+  min-height: 25rem;
+  position: relative;
 }
 
 .app-content {
