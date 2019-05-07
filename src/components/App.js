@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Weather from './Weather/Weather';
 import ConvertControl from './ConvertControl/ConvertControl';
 import Loading from './Loading/Loading';
+import Modal from './Modal/Modal';
 import { toFahrenheit, toCelsius } from '../helper/converter.js';
 import { getLocation } from '../helper/getLocation';
 
@@ -10,7 +11,10 @@ class App extends Component {
   state = {
     weatherData: null,
     temperature: null,
-    unit: null
+    unit: null,
+    error: {},
+    isOpen: false,
+    isFetching: true
   };
 
   componentDidMount() {
@@ -24,16 +28,26 @@ class App extends Component {
           this.getLocationWeather(coords.latitude, coords.longitude)
         )
         .catch(error => {
-          console.log(error);
-          this.getLocationByIP();
+          this.setState(prevState => ({
+            error,
+            isOpen: !prevState.isOpen
+          }));
         });
     } else {
       console.log('Geolocation is not supported by this browser');
-      this.getLocationByIP();
+      const error = new Error('Geolocation is not supported by this browser');
+      this.setState(prevState => ({
+        error,
+        isOpen: !prevState.isOpen
+      }));
     }
   }
 
-  getLocationByIP() {
+  getLocationByIP = () => {
+    this.setState(prevState => ({
+      isOpen: !prevState.isOpen
+    }));
+
     const endpoint = 'https://ipapi.co/json/';
     fetch(endpoint)
       .then(res => res.json())
@@ -42,14 +56,13 @@ class App extends Component {
         this.getLocationWeather(latitude, longitude);
       })
       .catch(error => console.log(error));
-  }
+  };
 
   getLocationWeather(latitude, longitude) {
     const endpoint = `https://fcc-weather-api.glitch.me/api/current?lat=${latitude}&lon=${longitude}`;
     fetch(endpoint)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         const { main, name, sys, weather } = data;
         const weatherData = {
           status: weather[0].main,
@@ -57,10 +70,11 @@ class App extends Component {
           place: `${name}, ${sys.country}`
         };
 
-        this.setState(() => ({
+        this.setState(prevState => ({
           weatherData,
           temperature: main.temp.toFixed(1),
-          unit: 'celcius'
+          unit: 'celcius',
+          isFetching: !prevState.isFetching
         }));
       })
       .catch(err => console.log(err.message));
@@ -81,13 +95,28 @@ class App extends Component {
   };
 
   render() {
-    const { weatherData, temperature, unit } = this.state;
+    const {
+      weatherData,
+      temperature,
+      unit,
+      isOpen,
+      error,
+      isFetching
+    } = this.state;
 
     return (
       <div className="container">
         <div className="app">
           <h1>Weather App</h1>
-          {weatherData && temperature ? (
+          {isFetching && isOpen ? (
+            <Modal
+              warning={error}
+              isOpen={isOpen}
+              runFallback={this.getLocationByIP}
+            />
+          ) : isFetching ? (
+            <Loading />
+          ) : (
             <div className="app-content">
               <Weather
                 weatherData={weatherData}
@@ -95,9 +124,10 @@ class App extends Component {
                 unit={unit}
               />
               <ConvertControl convertTo={this.convertTo} />
+              {isOpen && (
+                <Modal warning={error} runFallback={this.getLocationByIP} />
+              )}
             </div>
-          ) : (
-            <Loading />
           )}
         </div>
       </div>

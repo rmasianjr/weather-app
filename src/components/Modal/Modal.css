@@ -1,0 +1,95 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  animation: modalFade 0.5s ease-out;
+}
+
+.modal-container {
+  position: fixed;
+  background: #fdf8e4;
+  width: 30%;
+  height: auto;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  border-radius: 0.5rem;
+  border: 1px solid #faebcc;
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  padding: 1.8rem 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  overflow: hidden;
+  background: #faf2cd;
+  color: #c69b57;
+  border-bottom: 1px solid #faebcc;
+  position: relative;
+}
+
+.modal-header-message {
+  font-weight: normal;
+  font-size: 1.5rem;
+}
+
+.modal-button-close {
+  position: absolute;
+  right: 3%;
+  top: 10%;
+  color: #cbc4a7;
+  cursor: pointer;
+}
+
+.modal-content {
+  padding: 2rem 2.5rem;
+  line-height: 1.45;
+  color: #c99452;
+  font-size: 1.45rem;
+  text-align: center;
+}
+
+.modal-content span {
+  font-style: italic;
+  text-align: left;
+  display: block;
+  margin-top: 1.8rem;
+  font-size: 1.3rem;
+}
+
+.modal-content::after {
+  content: '';
+  height: 1px;
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  background: #ccc;
+}
+
+.modal-button {
+  display: block;
+  margin: 0 auto 1.3rem auto;
+  cursor: pointer;
+  color: #fff;
+  padding: 0.6rem 2.5rem;
+  border-radius: 0.5rem;
+  background: #c69b57;
+  border: 1px solid #faebcc;
+  font-family: inherit;
+  font-size: inherit;
+  box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+@keyframes modalFade {
+  from {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
