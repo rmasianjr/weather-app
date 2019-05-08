@@ -24,20 +24,39 @@ const Modal = ({ warning, runFallback, errorType, runTryAgain }) => {
 
   return (
     <div className="modal">
-      <div className="modal-container">
-        <header className="modal-header">
+      <div
+        className={`modal-container ${
+          errorType === 'warn'
+            ? 'modal-container-warn'
+            : 'modal-container-danger'
+        }`}
+      >
+        <header
+          className={`modal-header ${
+            errorType === 'warn' ? 'modal-header-warn' : 'modal-header-danger'
+          }`}
+        >
           <h4>
             {`${content.title}: `}
             <span className="modal-header-message">{warning.message}</span>
           </h4>
         </header>
-        <div className="modal-content">
+        <div
+          className={`modal-content ${
+            errorType === 'warn' ? 'modal-content-warn' : 'modal-content-danger'
+          }`}
+        >
           <p>{content.description}</p>
           {errorType === 'warn' && (
             <span>Note: it will give inaccurate result.</span>
           )}
         </div>
-        <button className="modal-button" onClick={() => callback()}>
+        <button
+          className={`modal-button ${
+            errorType === 'warn' ? 'modal-button-warn' : 'modal-button-danger'
+          }`}
+          onClick={() => callback()}
+        >
           Ok
         </button>
       </div>
