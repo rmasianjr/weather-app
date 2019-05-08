@@ -13,6 +13,7 @@ class App extends Component {
     temperature: null,
     unit: null,
     error: {},
+    errorType: null,
     isOpen: false,
     isFetching: true
   };
@@ -21,7 +22,7 @@ class App extends Component {
     this.checkGeolocation();
   }
 
-  checkGeolocation() {
+  checkGeolocation = () => {
     if ('geolocation' in navigator) {
       getLocation()
         .then(coords =>
@@ -29,19 +30,20 @@ class App extends Component {
         )
         .catch(error => {
           this.setState(prevState => ({
+            errorType: 'warn',
             error,
             isOpen: !prevState.isOpen
           }));
         });
     } else {
-      console.log('Geolocation is not supported by this browser');
       const error = new Error('Geolocation is not supported by this browser');
       this.setState(prevState => ({
+        errorType: 'warn',
         error,
         isOpen: !prevState.isOpen
       }));
     }
-  }
+  };
 
   getLocationByIP = () => {
     this.setState(prevState => ({
@@ -55,11 +57,26 @@ class App extends Component {
         const { latitude, longitude } = data;
         this.getLocationWeather(latitude, longitude);
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        this.setState(prevState => ({
+          error,
+          errorType: 'fetch-ip',
+          isOpen: !prevState.isOpen
+        }));
+      });
   };
 
   getLocationWeather(latitude, longitude) {
     const endpoint = `https://fcc-weather-api.glitch.me/api/current?lat=${latitude}&lon=${longitude}`;
+    const { errorType } = this.state;
+
+    if (errorType === 'fetch-geo') {
+      this.setState(prevState => ({
+        isOpen: !prevState.isOpen,
+        errorType: null
+      }));
+    }
+
     fetch(endpoint)
       .then(res => res.json())
       .then(data => {
@@ -77,7 +94,13 @@ class App extends Component {
           isFetching: !prevState.isFetching
         }));
       })
-      .catch(err => console.log(err.message));
+      .catch(error => {
+        this.setState(prevState => ({
+          error,
+          errorType: 'fetch-geo',
+          isOpen: !prevState.isOpen
+        }));
+      });
   }
 
   convertTo = e => {
@@ -101,6 +124,7 @@ class App extends Component {
       unit,
       isOpen,
       error,
+      errorType,
       isFetching
     } = this.state;
 
@@ -113,6 +137,8 @@ class App extends Component {
               warning={error}
               isOpen={isOpen}
               runFallback={this.getLocationByIP}
+              errorType={errorType}
+              runTryAgain={this.checkGeolocation}
             />
           ) : isFetching ? (
             <Loading />
@@ -124,9 +150,6 @@ class App extends Component {
                 unit={unit}
               />
               <ConvertControl convertTo={this.convertTo} />
-              {isOpen && (
-                <Modal warning={error} runFallback={this.getLocationByIP} />
-              )}
             </div>
           )}
         </div>
