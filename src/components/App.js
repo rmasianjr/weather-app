@@ -4,6 +4,7 @@ import Weather from './Weather/Weather';
 import ConvertControl from './ConvertControl/ConvertControl';
 import Loading from './Loading/Loading';
 import Modal from './Modal/Modal';
+import Footer from './Footer/Footer';
 import { toFahrenheit, toCelsius } from '../helper/converter.js';
 import { getLocation } from '../helper/getLocation';
 
@@ -132,26 +133,29 @@ class App extends Component {
       <div className="container">
         <div className="app">
           <h1>Weather App</h1>
-          {isFetching && isOpen ? (
-            <Modal
-              warning={error}
-              isOpen={isOpen}
-              runFallback={this.getLocationByIP}
-              errorType={errorType}
-              runTryAgain={this.checkGeolocation}
-            />
-          ) : isFetching ? (
-            <Loading />
-          ) : (
-            <div className="app-content">
-              <Weather
-                weatherData={weatherData}
-                temperature={temperature}
-                unit={unit}
+          <div className="app-content">
+            {isFetching && isOpen ? (
+              <Modal
+                warning={error}
+                isOpen={isOpen}
+                runFallback={this.getLocationByIP}
+                errorType={errorType}
+                runTryAgain={this.checkGeolocation}
               />
-              <ConvertControl convertTo={this.convertTo} />
-            </div>
-          )}
+            ) : isFetching ? (
+              <Loading />
+            ) : (
+              <div>
+                <Weather
+                  weatherData={weatherData}
+                  temperature={temperature}
+                  unit={unit}
+                />
+                <ConvertControl convertTo={this.convertTo} />
+              </div>
+            )}
+          </div>
+          <Footer />
         </div>
       </div>
     );
