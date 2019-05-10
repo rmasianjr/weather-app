@@ -10,7 +10,7 @@
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 58%;
   box-sizing: border-box;
 }
 
@@ -38,16 +38,32 @@ h1 {
 }
 
 .app {
-  min-width: 50rem;
-  padding: 1rem 1.8rem;
-  margin: 1em auto;
-  border-radius: 1rem;
-  box-shadow: 0 0 5rem rgba(0, 0, 0, 0.3);
-  min-height: 25rem;
   position: relative;
+  margin-top: 1em;
 }
 
 .app-content {
   min-height: 20rem;
   position: relative;
+}
+
+@media screen and (min-width: 530px) {
+  html {
+    font-size: 60%;
+  }
+
+  .app {
+    min-width: 50rem;
+    padding: 1rem 1.8rem;
+    margin: 2em auto;
+    border-radius: 1rem;
+    box-shadow: 0 0 5rem rgba(0, 0, 0, 0.3);
+    min-height: 25rem;
+  }
+}
+
+@media screen and (min-width: 620px) {
+  html {
+    font-size: 62.5%;
+  }
 }

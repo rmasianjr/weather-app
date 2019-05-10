@@ -46,7 +46,7 @@ const Modal = ({ warning, runFallback, errorType, runTryAgain }) => {
             errorType === 'warn' ? 'modal-content-warn' : 'modal-content-danger'
           }`}
         >
-          <p>{content.description}</p>
+          {content.description}
           {errorType === 'warn' && (
             <span>Note: it will give inaccurate result.</span>
           )}

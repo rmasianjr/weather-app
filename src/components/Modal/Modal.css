@@ -10,7 +10,7 @@
 
 .modal-container {
   position: fixed;
-  width: 30%;
+  width: 80%;
   height: auto;
   top: 30%;
   left: 50%;
@@ -123,5 +123,23 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .modal-container {
+    width: 65%;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .modal-container {
+    width: 55%;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .modal-container {
+    width: 33%;
   }
 }

@@ -10,4 +10,11 @@
 
 .footer p {
   padding: 0.3rem;
+  line-height: 1.65;
+}
+
+@media screen and (min-width: 530px) {
+  .footer p {
+    line-height: 1.45;
+  }
 }
