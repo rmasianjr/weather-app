@@ -68,7 +68,7 @@ class App extends Component {
       });
   };
 
-  getLocationWeather(latitude, longitude) {
+  getLocationWeather = (latitude, longitude, location) => {
     const endpoint = `https://fcc-weather-api.glitch.me/api/current?lat=${latitude}&lon=${longitude}`;
     const { errorType } = this.state;
 
@@ -79,14 +79,20 @@ class App extends Component {
       }));
     }
 
+    this.setState(() => ({
+      isFetching: true
+    }));
+
     fetch(endpoint)
       .then(res => res.json())
       .then(data => {
         const { main, name, sys, weather } = data;
+        const place = location ? location : `${name}, ${sys.country}`;
+
         const weatherData = {
           status: weather[0].main,
           description: weather[0].description,
-          place: `${name}, ${sys.country}`
+          place
         };
 
         this.setState(prevState => ({
@@ -103,7 +109,7 @@ class App extends Component {
           isOpen: !prevState.isOpen
         }));
       });
-  }
+  };
 
   convertTo = e => {
     if (!e.target.checked) {
@@ -135,7 +141,7 @@ class App extends Component {
         <div className="app">
           <h1>Weather App</h1>
           <div className="app-content">
-            <LocationInput />
+            <LocationInput getLocationWeather={this.getLocationWeather} />
             {isFetching && isOpen ? (
               <Modal
                 warning={error}

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
+const initialState = { address: '', geo: null };
+
 class LocationInput extends Component {
-  state = {
-    address: '',
-    geo: null
-  };
+  state = { ...initialState };
 
   searchInput = React.createRef();
 
@@ -41,7 +40,15 @@ class LocationInput extends Component {
       address: place.formatted_address,
       geo
     }));
+
+    this.submitQuery();
   };
+
+  submitQuery() {
+    const { geo, address } = this.state;
+    this.props.getLocationWeather(geo.lat, geo.lon, address);
+    this.setState(() => ({ ...initialState }));
+  }
 
   render() {
     const { address } = this.state;
