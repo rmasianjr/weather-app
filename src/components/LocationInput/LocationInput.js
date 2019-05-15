@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './LocationInput.css';
 
 const initialState = { address: '', geo: null };
 
@@ -47,20 +48,23 @@ class LocationInput extends Component {
   submitQuery() {
     const { geo, address } = this.state;
     this.props.getLocationWeather(geo.lat, geo.lon, address);
-    this.setState(() => ({ ...initialState }));
+    // this.setState(() => ({ ...initialState }));
   }
 
   render() {
     const { address } = this.state;
     return (
-      <input
-        type="search"
-        q="locationsearch"
-        ref={this.searchInput}
-        placeholder="Enter a Location"
-        onChange={this.handleOnChange}
-        value={address}
-      />
+      <div className="search-container">
+        <input
+          className="search-input"
+          type="search"
+          q="locationsearch"
+          ref={this.searchInput}
+          placeholder="Enter a Location"
+          onChange={this.handleOnChange}
+          value={address}
+        />
+      </div>
     );
   }
 }

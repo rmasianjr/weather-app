@@ -1,0 +1,26 @@
+.search-container {
+  text-align: center;
+}
+
+.search-input {
+  font-family: inherit;
+  font-size: 1.5rem;
+  color: inherit;
+  border: none;
+  border-bottom: 1px solid #777;
+  background-color: #f9f2d3;
+  outline: none;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-bottom: 1.5em;
+  transition: all 0.8s ease-in;
+}
+
+.search-input:focus {
+  border-bottom: 1px solid #435961;
+}
+
+.pac-container,
+.pac-item {
+  width: inherit !important;
+}
