@@ -5,6 +5,7 @@ import ConvertControl from './ConvertControl/ConvertControl';
 import Loading from './Loading/Loading';
 import Modal from './Modal/Modal';
 import Footer from './Footer/Footer';
+import LocationInput from './LocationInput/LocationInput';
 import { toFahrenheit, toCelsius } from '../helper/converter.js';
 import { getLocation } from '../helper/getLocation';
 
@@ -134,6 +135,7 @@ class App extends Component {
         <div className="app">
           <h1>Weather App</h1>
           <div className="app-content">
+            <LocationInput />
             {isFetching && isOpen ? (
               <Modal
                 warning={error}
