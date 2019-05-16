@@ -69,7 +69,28 @@ class App extends Component {
   };
 
   getLocationWeather = (latitude, longitude, location) => {
-    const endpoint = `https://fcc-weather-api.glitch.me/api/current?lat=${latitude}&lon=${longitude}`;
+    const weatherEndpoint = `https://fcc-weather-api.glitch.me/api/current?lat=${latitude}&lon=${longitude}`;
+    const timeEndpoint = `https://api.timezonedb.com/v2.1/get-time-zone?key=${
+      process.env.REACT_APP_TIMEZONEDB_KEY
+    }&format=json&by=position&lat=${latitude}&lng=${longitude}`;
+
+    this.setState(() => ({
+      isFetching: true
+    }));
+
+    const weatherPromise = fetch(weatherEndpoint).then(res => res.json());
+    const timePromise = fetch(timeEndpoint).then(res => res.json());
+
+    Promise.all([weatherPromise, timePromise])
+      .then(values => this.setData(values, location))
+      .catch(error => {
+        this.setState(prevState => ({
+          error,
+          errorType: 'fetch-geo',
+          isOpen: !prevState.isOpen
+        }));
+      });
+
     const { errorType } = this.state;
 
     if (errorType === 'fetch-geo') {
@@ -78,38 +99,27 @@ class App extends Component {
         errorType: null
       }));
     }
-
-    this.setState(() => ({
-      isFetching: true
-    }));
-
-    fetch(endpoint)
-      .then(res => res.json())
-      .then(data => {
-        const { main, name, sys, weather } = data;
-        const place = location ? location : `${name}, ${sys.country}`;
-
-        const weatherData = {
-          status: weather[0].main,
-          description: weather[0].description,
-          place
-        };
-
-        this.setState(prevState => ({
-          weatherData,
-          temperature: main.temp.toFixed(1),
-          unit: 'celcius',
-          isFetching: !prevState.isFetching
-        }));
-      })
-      .catch(error => {
-        this.setState(prevState => ({
-          error,
-          errorType: 'fetch-geo',
-          isOpen: !prevState.isOpen
-        }));
-      });
   };
+
+  setData(data, location) {
+    const [weatherRes, timeRes] = data;
+    const { main, name, sys, weather } = weatherRes;
+    const { formatted } = timeRes;
+
+    const weatherData = {
+      status: weather[0].main,
+      description: weather[0].description,
+      place: location ? location : `${name}, ${sys.country}`,
+      timeInHour: parseInt(formatted.split(' ')[1].split(':')[0]) // get hour
+    };
+
+    this.setState(prevState => ({
+      weatherData,
+      temperature: main.temp.toFixed(1),
+      unit: 'celcius',
+      isFetching: !prevState.isFetching
+    }));
+  }
 
   convertTo = e => {
     if (!e.target.checked) {

@@ -48,7 +48,7 @@ class LocationInput extends Component {
   submitQuery() {
     const { geo, address } = this.state;
     this.props.getLocationWeather(geo.lat, geo.lon, address);
-    // this.setState(() => ({ ...initialState }));
+    this.setState(() => ({ ...initialState }));
   }
 
   render() {

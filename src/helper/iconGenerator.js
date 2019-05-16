@@ -5,8 +5,8 @@ function checkTime(hour) {
   return 'day';
 }
 
-export function getIcon(weatherStatus) {
-  const today = checkTime(new Date().getHours());
+export function getIcon(weatherStatus, time) {
+  const today = checkTime(time);
   let iconStr;
 
   switch (weatherStatus) {
