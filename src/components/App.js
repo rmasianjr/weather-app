@@ -8,6 +8,7 @@ import Footer from './Footer/Footer';
 import LocationInput from './LocationInput/LocationInput';
 import { toFahrenheit, toCelsius } from '../helper/converter.js';
 import { getLocation } from '../helper/getLocation';
+import { checkTempMeasurement } from '../helper/checkTempMeasurement';
 
 class App extends Component {
   state = {
@@ -104,7 +105,17 @@ class App extends Component {
   setData(data, location) {
     const [weatherRes, timeRes] = data;
     const { main, name, sys, weather } = weatherRes;
-    const { formatted } = timeRes;
+    const { formatted, countryName } = timeRes;
+
+    let unit, temperature;
+    const usesFahrenheit = checkTempMeasurement(countryName);
+    if (usesFahrenheit) {
+      unit = 'fahrenheit';
+      temperature = toFahrenheit(main.temp.toFixed(1));
+    } else {
+      unit = 'celcius';
+      temperature = main.temp.toFixed(1);
+    }
 
     const weatherData = {
       status: weather[0].main,
@@ -115,8 +126,8 @@ class App extends Component {
 
     this.setState(prevState => ({
       weatherData,
-      temperature: main.temp.toFixed(1),
-      unit: 'celcius',
+      temperature,
+      unit,
       isFetching: !prevState.isFetching
     }));
   }
@@ -169,7 +180,7 @@ class App extends Component {
                   temperature={temperature}
                   unit={unit}
                 />
-                <ConvertControl convertTo={this.convertTo} />
+                <ConvertControl convertTo={this.convertTo} unit={unit} />
               </div>
             )}
           </div>
