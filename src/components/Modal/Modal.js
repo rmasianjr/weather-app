@@ -2,62 +2,54 @@ import React from 'react';
 
 import './Modal.css';
 
-const Modal = ({ warning, runFallback, errorType, runTryAgain }) => {
-  const callback = errorType === 'fetch-geo' ? runTryAgain : runFallback;
+const Modal = ({ error, runFallback, runTryAgain }) => {
+  const { errorContent, type } = error;
 
-  const warnContent = {
+  const funcToRun = type !== 'warn' ? runTryAgain : runFallback;
+
+  const warnObj = {
     title: 'Warning',
     description: (
       <p>
         As a fallback, it will use the user <strong>IP Address</strong> to get
         the location and weather status.
       </p>
-    )
+    ),
+    style: 'warn'
   };
 
-  const errorContent = {
+  const errorObj = {
     title: 'Error',
-    description: <p>Please Try Again.</p>
+    description: <p>{errorContent.message}</p>,
+    style: 'danger'
   };
 
-  const content = errorType === 'warn' ? warnContent : errorContent;
+  const content = type === 'warn' ? warnObj : errorObj;
 
   return (
     <div className="modal">
-      <div
-        className={`modal-container ${
-          errorType === 'warn'
-            ? 'modal-container-warn'
-            : 'modal-container-danger'
-        }`}
-      >
-        <header
-          className={`modal-header ${
-            errorType === 'warn' ? 'modal-header-warn' : 'modal-header-danger'
-          }`}
-        >
+      <div className={`modal-container modal-container-${content.style}`}>
+        <header className={`modal-header modal-header-${content.style}`}>
           <h4>
-            {`${content.title}: `}
-            <span className="modal-header-message">{warning.message}</span>
+            {content.title}:{' '}
+            {type === 'warn' && (
+              <span className="modal-header-message">
+                {errorContent.message}
+              </span>
+            )}
           </h4>
         </header>
-        <div
-          className={`modal-content ${
-            errorType === 'warn' ? 'modal-content-warn' : 'modal-content-danger'
-          }`}
-        >
+        <div className={`modal-content modal-content-${content.style}`}>
           {content.description}
-          {errorType === 'warn' && (
+          {type === 'warn' && (
             <span>Note: it will give inaccurate result.</span>
           )}
         </div>
         <button
-          className={`modal-button ${
-            errorType === 'warn' ? 'modal-button-warn' : 'modal-button-danger'
-          }`}
-          onClick={() => callback()}
+          className={`modal-button modal-button-${content.style}`}
+          onClick={funcToRun}
         >
-          Ok
+          {type === 'warn' ? 'Ok' : 'Try Again'}
         </button>
       </div>
     </div>

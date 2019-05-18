@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import Weather from './Weather/Weather';
 import ConvertControl from './ConvertControl/ConvertControl';
@@ -15,8 +16,7 @@ class App extends Component {
     weatherData: null,
     temperature: null,
     unit: null,
-    error: {},
-    errorType: null,
+    error: null,
     isOpen: false,
     isFetching: true
   };
@@ -32,38 +32,41 @@ class App extends Component {
           this.getLocationWeather(coords.latitude, coords.longitude)
         )
         .catch(error => {
+          const type = error.code === 1 ? 'warn' : 'fetch';
           this.setState(prevState => ({
-            errorType: 'warn',
-            error,
+            error: {
+              errorContent: error,
+              type
+            },
             isOpen: !prevState.isOpen
           }));
         });
     } else {
       const error = new Error('Geolocation is not supported by this browser');
       this.setState(prevState => ({
-        errorType: 'warn',
-        error,
+        error: {
+          errorContent: error,
+          type: 'warn'
+        },
         isOpen: !prevState.isOpen
       }));
     }
   };
 
   getLocationByIP = () => {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen
-    }));
-
     const endpoint = 'https://ipapi.co/json/';
-    fetch(endpoint)
-      .then(res => res.json())
-      .then(data => {
-        const { latitude, longitude } = data;
+    axios
+      .get(endpoint)
+      .then(res => {
+        const { latitude, longitude } = res.data;
         this.getLocationWeather(latitude, longitude);
       })
       .catch(error => {
         this.setState(prevState => ({
-          error,
-          errorType: 'fetch-ip',
+          error: {
+            errorContent: error,
+            type: 'fetch'
+          },
           isOpen: !prevState.isOpen
         }));
       });
@@ -75,31 +78,24 @@ class App extends Component {
       process.env.REACT_APP_TIMEZONEDB_KEY
     }&format=json&by=position&lat=${latitude}&lng=${longitude}`;
 
+    const weatherPromise = axios.get(weatherEndpoint).then(res => res.data);
+    const timePromise = axios.get(timeEndpoint).then(res => res.data);
+
     this.setState(() => ({
       isFetching: true
     }));
-
-    const weatherPromise = fetch(weatherEndpoint).then(res => res.json());
-    const timePromise = fetch(timeEndpoint).then(res => res.json());
 
     Promise.all([weatherPromise, timePromise])
       .then(values => this.setData(values, location))
       .catch(error => {
         this.setState(prevState => ({
-          error,
-          errorType: 'fetch-geo',
+          error: {
+            errorContent: error,
+            type: 'fetch'
+          },
           isOpen: !prevState.isOpen
         }));
       });
-
-    const { errorType } = this.state;
-
-    if (errorType === 'fetch-geo') {
-      this.setState(prevState => ({
-        isOpen: !prevState.isOpen,
-        errorType: null
-      }));
-    }
   };
 
   setData(data, location) {
@@ -146,6 +142,24 @@ class App extends Component {
     }
   };
 
+  runTryAgain = () => {
+    this.setState(prevState => ({
+      error: null,
+      isOpen: !prevState.isOpen
+    }));
+
+    this.checkGeolocation();
+  };
+
+  runFallBack = () => {
+    this.setState(prevState => ({
+      error: null,
+      isOpen: !prevState.isOpen
+    }));
+
+    this.getLocationByIP();
+  };
+
   render() {
     const {
       weatherData,
@@ -153,7 +167,6 @@ class App extends Component {
       unit,
       isOpen,
       error,
-      errorType,
       isFetching
     } = this.state;
 
@@ -163,13 +176,12 @@ class App extends Component {
           <h1>Weather App</h1>
           <div className="app-content">
             <LocationInput getLocationWeather={this.getLocationWeather} />
-            {isFetching && isOpen ? (
+            {error ? (
               <Modal
-                warning={error}
+                error={error}
                 isOpen={isOpen}
-                runFallback={this.getLocationByIP}
-                errorType={errorType}
-                runTryAgain={this.checkGeolocation}
+                runFallback={this.runFallBack}
+                runTryAgain={this.runTryAgain}
               />
             ) : isFetching ? (
               <Loading />
