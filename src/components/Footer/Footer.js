@@ -12,6 +12,14 @@ const Footer = () => (
       >
         Ricardo Masian Jr.
       </a>
+      <span>&mdash;</span>
+      <a
+        href="https://github.com/rmasianjr/weather-app"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View code
+      </a>
     </p>
     <p>
       <span>
@@ -26,19 +34,34 @@ const Footer = () => (
         /{' '}
         <a href="https://ipapi.co/" target="_blank" rel="noopener noreferrer">
           ipapi
-        </a>
-      </span>
-      <span> &mdash; </span>
-      <span>
-        Weather Icons:{' '}
+        </a>{' '}
+        /{' '}
         <a
-          href="https://erikflowers.github.io/weather-icons/"
+          href="https://timezonedb.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          erikflowers
+          timezonedb
+        </a>{' '}
+        /{' '}
+        <a
+          href="https://developers.google.com/maps/documentation/javascript/places-autocomplete"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          googlemaps autocomplete
         </a>
       </span>
+    </p>
+    <p>
+      Weather Icons:{' '}
+      <a
+        href="https://erikflowers.github.io/weather-icons/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        erikflowers
+      </a>
     </p>
   </footer>
 );
