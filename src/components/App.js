@@ -109,7 +109,7 @@ class App extends Component {
       unit = 'fahrenheit';
       temperature = toFahrenheit(main.temp.toFixed(1));
     } else {
-      unit = 'celcius';
+      unit = 'celsius';
       temperature = main.temp.toFixed(1);
     }
 
@@ -132,7 +132,7 @@ class App extends Component {
     if (!e.target.checked) {
       this.setState(prevState => ({
         temperature: toCelsius(prevState.temperature),
-        unit: 'celcius'
+        unit: 'celsius'
       }));
     } else {
       this.setState(prevState => ({

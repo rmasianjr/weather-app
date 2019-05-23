@@ -18,7 +18,7 @@ const Weather = ({ weatherData, temperature, unit }) => {
       <p className="weather-data-place">{place}</p>
       <p className="weather-data-temp">
         {temperature}
-        {unit === 'celcius' ? '° C' : '° F'}
+        {unit === 'celsius' ? '° C' : '° F'}
       </p>
     </div>
   );

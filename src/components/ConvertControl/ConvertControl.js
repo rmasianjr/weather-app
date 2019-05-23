@@ -14,7 +14,7 @@ const ConvertControl = ({ convertTo, unit }) => (
       className="toggle-switch"
       htmlFor="convert"
       data-temp-off="Fahrenheit"
-      data-temp-on="Celcius"
+      data-temp-on="Celsius"
     />
   </div>
 );
