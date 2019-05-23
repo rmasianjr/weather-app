@@ -47,6 +47,29 @@ h1 {
   position: relative;
 }
 
+.search-icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  position: relative;
+  margin-right: 0.3rem;
+  background: #435961;
+}
+
+.search-icon::after {
+  position: absolute;
+  content: '';
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f9f2d3;
+}
+
 @media screen and (min-width: 530px) {
   html {
     font-size: 60%;

@@ -59,6 +59,7 @@ class LocationInput extends Component {
     const { address, error } = this.state;
     return (
       <div className="search-container">
+        <div className="search-icon"></div>
         <input
           className="search-input"
           type="search"

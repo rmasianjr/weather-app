@@ -13,6 +13,8 @@ const Weather = ({ weatherData, temperature, unit }) => {
         description={description}
         timeInHour={timeInHour}
       />
+      <div className="search-icon" />
+      <div className="weather-marker" />
       <p className="weather-data-place">{place}</p>
       <p className="weather-data-temp">
         {temperature}
