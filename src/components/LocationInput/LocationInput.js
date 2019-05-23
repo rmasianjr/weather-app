@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './LocationInput.css';
 
-const initialState = { address: '', geo: null };
+const initialState = { address: '', geo: null, error: null };
 
 class LocationInput extends Component {
   state = { ...initialState };
@@ -15,20 +15,24 @@ class LocationInput extends Component {
     this.autocomplete = new google.maps.places.Autocomplete(
       this.searchInput.current
     );
+    this.autocomplete.setFields(['formatted_address', 'geometry']);
     this.autocomplete.addListener('place_changed', this.handlePlaceSelect);
   }
 
   handleOnChange = e => {
     const value = e.target.value;
     this.setState(() => ({
-      address: value
+      address: value,
+      error: null
     }));
   };
 
   handlePlaceSelect = () => {
     const place = this.autocomplete.getPlace();
+
     if (!place.geometry) {
-      console.error(`No details available for input ${place.name}`);
+      const error = new Error(`No details available for input "${place.name}"`);
+      this.setState(() => ({ error }));
       return;
     }
 
@@ -52,7 +56,7 @@ class LocationInput extends Component {
   }
 
   render() {
-    const { address } = this.state;
+    const { address, error } = this.state;
     return (
       <div className="search-container">
         <input
@@ -64,6 +68,7 @@ class LocationInput extends Component {
           onChange={this.handleOnChange}
           value={address}
         />
+        {error && <span>{error.message}</span>}
       </div>
     );
   }

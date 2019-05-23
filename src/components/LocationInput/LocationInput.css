@@ -20,6 +20,14 @@
   border-bottom: 1px solid #435961;
 }
 
+.search-container span {
+  display: block;
+  font-size: 1.1rem;
+  color: #b7425d;
+  margin-top: -1.5em;
+  margin-bottom: 1em;
+}
+
 .pac-container,
 .pac-item {
   width: inherit !important;
