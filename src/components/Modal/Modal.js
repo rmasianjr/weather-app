@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './Modal.css';
 
@@ -54,6 +55,15 @@ const Modal = ({ error, runFallback, runTryAgain }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  error: PropTypes.shape({
+    errorContent: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired
+  }).isRequired,
+  runFallback: PropTypes.func.isRequired,
+  runTryAgain: PropTypes.func.isRequired
 };
 
 export default Modal;

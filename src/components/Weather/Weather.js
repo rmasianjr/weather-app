@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import WeatherIcon from '../WeatherIcon/WeatherIcon';
 import './Weather.css';
@@ -22,6 +23,17 @@ const Weather = ({ weatherData, temperature, unit }) => {
       </p>
     </div>
   );
+};
+
+Weather.propTypes = {
+  weatherData: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    place: PropTypes.string.isRequired,
+    timeInHour: PropTypes.number.isRequired
+  }),
+  temperature: PropTypes.string.isRequired,
+  unit: PropTypes.oneOf(['celsius', 'fahrenheit']).isRequired
 };
 
 export default Weather;

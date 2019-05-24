@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './LocationInput.css';
 
 const initialState = { address: '', geo: null, error: null };
@@ -7,6 +8,10 @@ class LocationInput extends Component {
   state = { ...initialState };
 
   searchInput = React.createRef();
+
+  static propTypes = {
+    getLocationWeather: PropTypes.func.isRequired
+  };
 
   componentDidMount() {
     /*global google*/
@@ -59,7 +64,7 @@ class LocationInput extends Component {
     const { address, error } = this.state;
     return (
       <div className="search-container">
-        <div className="search-icon"></div>
+        <div className="search-icon" />
         <input
           className="search-input"
           type="search"

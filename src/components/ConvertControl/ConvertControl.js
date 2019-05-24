@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './ConvertControl.css';
 
 const ConvertControl = ({ convertTo, unit }) => (
@@ -18,5 +20,10 @@ const ConvertControl = ({ convertTo, unit }) => (
     />
   </div>
 );
+
+ConvertControl.propTypes = {
+  convertTo: PropTypes.func.isRequired,
+  unit: PropTypes.oneOf(['celsius', 'fahrenheit'])
+};
 
 export default ConvertControl;
