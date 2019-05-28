@@ -1,3 +1,32 @@
+# weather-app
+
+Build a Weather App. This project is part of [FreeCodeCamp Take Home Projects](https://learn.freecodecamp.org/coding-interview-prep/take-home-projects/show-the-local-weather).
+
+This project was built with React.
+
+## Live Demonstration
+
+Live project link: <https://rmasianjr.github.io/weather-app/>
+
+## Screenshot
+
+![weather-app](https://user-images.githubusercontent.com/37429704/58444559-5ddf4180-812b-11e9-9562-8d2313044bc9.png)
+
+## Objective
+
+- [x] Build a CodePen.io app that is functionally similar to this: <https://codepen.io/freeCodeCamp/full/bELRjV>. Don't look at the example project's code. Figure it out for yourself. Fulfill the below user stories. Use whichever libraries or APIs you need. Give it your own personal style.
+
+## User stories
+
+- [x] I can see the weather in my current location.
+- [x] I can see a different icon or background image (e.g. snowy mountain, hot desert) depending on the weather.
+- [x] I can push a button to toggle between Fahrenheit and Celsius.
+
+### Added stories
+
+- [x] I can search weather status of other places(powered by google autocomplete).
+- [x] If my country uses fahrenheit as a measurement of temperature, the default reading must be fahrenheit (vice versa).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
